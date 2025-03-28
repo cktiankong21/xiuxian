@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    background-color: #1a1a2e;
+    color: #e6e6e6;
+    line-height: 1.6;
+    background-image: url('https://img.freepik.com/free-vector/hand-drawn-chinese-style-background_23-2148426735.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(26, 26, 46, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #00ffff;
+    padding-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+h1 {
+    color: #00ffff;
+    font-size: 2.5em;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    margin-bottom: 15px;
+}
+
+.player-stats {
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.2em;
+    color: #00ffff;
+}
+
+.story-text {
+    background-color: rgba(42, 42, 74, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    min-height: 150px;
+    border: 1px solid #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.choice-btn {
+    background-color: rgba(58, 58, 106, 0.8);
+    border: 1px solid #00ffff;
+    color: #e6e6e6;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.2);
+}
+
+.choice-btn:hover {
+    background-color: rgba(74, 74, 146, 0.8);
+    border-color: #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+.inventory {
+    margin-top: 30px;
+    background-color: rgba(42, 42, 74, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.inventory h2 {
+    color: #00ffff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.equipment-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.slot {
+    padding: 10px;
+    background-color: rgba(58, 58, 106, 0.8);
+    border: 1px solid #00ffff;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.2);
+}
+
+#cultivation {
+    color: #00ffff;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+#spirit {
+    color: #00ff00;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+#spirit-stones {
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+} 

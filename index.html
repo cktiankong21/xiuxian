@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修仙之路 - 文字RPG</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>修仙之路</h1>
+            <div class="player-stats">
+                <span>修为: <span id="cultivation">练气期</span></span>
+                <span>灵力: <span id="spirit">100</span>/100</span>
+                <span>灵石: <span id="spirit-stones">0</span></span>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div id="story-text" class="story-text">
+                你出生在一个普通的山村，直到有一天，一位仙人路过，发现你具有修仙的灵根...
+            </div>
+            
+            <div class="choices" id="choices">
+                <!-- 选项将通过JavaScript动态添加 -->
+            </div>
+        </div>
+
+        <div class="inventory">
+            <h2>法宝栏</h2>
+            <div class="equipment-slots">
+                <div class="slot" data-slot="weapon">法器: <span id="weapon">无</span></div>
+                <div class="slot" data-slot="armor">法衣: <span id="armor">无</span></div>
+                <div class="slot" data-slot="accessory">灵饰: <span id="accessory">无</span></div>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html> 
