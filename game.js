@@ -20,7 +20,11 @@ const gameState = {
     defense: 5,
     hp: 100,
     maxHp: 100,
-    isBossBattle: false
+    isBossBattle: false,
+    // 添加背包系统
+    inventory: Array(12).fill(null),
+    // 添加物品ID计数器
+    itemIdCounter: 1
 };
 
 // 装备数据
@@ -415,6 +419,9 @@ function battleTurn(defending = false) {
     document.getElementById('story-text').textContent = battleText;
     gameState.inBattle = false;
     gameState.currentEnemy = null;
+
+    // 更新血量显示
+    updateHpDisplay();
 }
 
 // 使用法术
@@ -493,6 +500,11 @@ function updateDisplay() {
     document.getElementById('weapon').textContent = gameState.equipment.weapon ? gameState.equipment.weapon.name : '无';
     document.getElementById('armor').textContent = gameState.equipment.armor ? gameState.equipment.armor.name : '无';
     document.getElementById('accessory').textContent = gameState.equipment.accessory ? gameState.equipment.accessory.name : '无';
+
+    // 更新状态和背包显示
+    updateStatusDisplay();
+    updateInventoryDisplay();
+    updateHpDisplay();
 }
 
 // 显示当前场景
@@ -622,6 +634,9 @@ function bossBattleTurn(defending = false) {
     gameState.inBattle = false;
     gameState.currentEnemy = null;
     gameState.isBossBattle = false;
+
+    // 更新血量显示
+    updateHpDisplay();
 }
 
 // 初始化游戏
@@ -630,4 +645,143 @@ function initGame() {
 }
 
 // 启动游戏
-window.onload = initGame; 
+window.onload = initGame;
+
+// 更新血量显示
+function updateHpDisplay() {
+    const playerHpBar = document.getElementById('player-hp-bar');
+    const playerHpText = document.getElementById('player-hp-text');
+    const enemyHpContainer = document.getElementById('enemy-hp-container');
+    const enemyHpBar = document.getElementById('enemy-hp-bar');
+    const enemyHpText = document.getElementById('enemy-hp-text');
+
+    // 更新玩家血量
+    const playerHpPercent = (gameState.hp / gameState.maxHp) * 100;
+    playerHpBar.style.width = `${playerHpPercent}%`;
+    playerHpText.textContent = `${gameState.hp}/${gameState.maxHp}`;
+
+    // 更新敌人血量
+    if (gameState.currentEnemy) {
+        enemyHpContainer.style.display = 'block';
+        const enemyHpPercent = (gameState.currentEnemy.hp / gameState.currentEnemy.maxHp) * 100;
+        enemyHpBar.style.width = `${enemyHpPercent}%`;
+        enemyHpText.textContent = `${gameState.currentEnemy.hp}/${gameState.currentEnemy.maxHp}`;
+    } else {
+        enemyHpContainer.style.display = 'none';
+    }
+}
+
+// 更新状态显示
+function updateStatusDisplay() {
+    document.getElementById('attack').textContent = gameState.attack;
+    document.getElementById('defense').textContent = gameState.defense;
+    document.getElementById('learned-spells').textContent = gameState.learnedSpells.length > 0 
+        ? gameState.learnedSpells.join(', ') 
+        : '无';
+}
+
+// 更新背包显示
+function updateInventoryDisplay() {
+    const inventoryGrid = document.getElementById('inventory-grid');
+    inventoryGrid.innerHTML = '';
+
+    gameState.inventory.forEach((item, index) => {
+        const slot = document.createElement('div');
+        slot.className = `inventory-slot ${!item ? 'empty' : ''}`;
+        
+        if (item) {
+            slot.innerHTML = `
+                <div class="item-name">${item.name}</div>
+                <div class="item-type">${item.type}</div>
+            `;
+            slot.onclick = () => useInventoryItem(index);
+        }
+        
+        inventoryGrid.appendChild(slot);
+    });
+}
+
+// 使用背包物品
+function useInventoryItem(index) {
+    const item = gameState.inventory[index];
+    if (!item) return;
+
+    // 根据物品类型执行不同操作
+    switch(item.type) {
+        case 'weapon':
+        case 'armor':
+        case 'accessory':
+            // 装备物品
+            const oldItem = gameState.equipment[item.type];
+            gameState.equipment[item.type] = item;
+            gameState.inventory[index] = oldItem;
+            updateEquipmentStats(item);
+            break;
+        case 'consumable':
+            // 使用消耗品
+            useConsumable(item);
+            gameState.inventory[index] = null;
+            break;
+    }
+
+    updateInventoryDisplay();
+    updateDisplay();
+}
+
+// 更新装备属性
+function updateEquipmentStats(item) {
+    if (!item) return;
+
+    // 移除旧装备的属性
+    if (item.type === 'weapon') {
+        gameState.attack -= item.damage || 0;
+    } else if (item.type === 'armor') {
+        gameState.defense -= item.defense || 0;
+    }
+
+    // 添加新装备的属性
+    if (item.type === 'weapon') {
+        gameState.attack += item.damage || 0;
+    } else if (item.type === 'armor') {
+        gameState.defense += item.defense || 0;
+    }
+
+    updateStatusDisplay();
+}
+
+// 使用消耗品
+function useConsumable(item) {
+    switch(item.effect) {
+        case 'heal':
+            gameState.hp = Math.min(gameState.maxHp, gameState.hp + item.value);
+            alert(`使用了${item.name}，恢复了${item.value}点生命值！`);
+            break;
+        case 'spirit':
+            gameState.spirit = Math.min(gameState.maxSpirit, gameState.spirit + item.value);
+            alert(`使用了${item.name}，恢复了${item.value}点灵力！`);
+            break;
+    }
+    updateHpDisplay();
+}
+
+// 添加物品到背包
+function addToInventory(item) {
+    const emptySlot = gameState.inventory.findIndex(slot => slot === null);
+    if (emptySlot !== -1) {
+        gameState.inventory[emptySlot] = {
+            ...item,
+            id: gameState.itemIdCounter++
+        };
+        updateInventoryDisplay();
+        return true;
+    }
+    alert('背包已满！');
+    return false;
+}
+
+// 修改掉落系统，使用背包系统
+function addDroppedItem(item) {
+    if (addToInventory(item)) {
+        alert(`获得了物品：${item.name}！`);
+    }
+} 

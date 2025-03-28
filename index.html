@@ -18,6 +18,21 @@
         </div>
         
         <div class="main-content">
+            <div class="battle-info">
+                <div class="player-hp">
+                    <div class="hp-bar">
+                        <div id="player-hp-bar" class="hp-fill"></div>
+                    </div>
+                    <span>生命值: <span id="player-hp-text">100</span>/100</span>
+                </div>
+                <div class="enemy-hp" id="enemy-hp-container" style="display: none;">
+                    <div class="hp-bar">
+                        <div id="enemy-hp-bar" class="hp-fill"></div>
+                    </div>
+                    <span>敌人生命值: <span id="enemy-hp-text">0</span>/0</span>
+                </div>
+            </div>
+
             <div id="story-text" class="story-text">
                 你出生在一个普通的山村，直到有一天，一位仙人路过，发现你具有修仙的灵根...
             </div>
@@ -27,12 +42,38 @@
             </div>
         </div>
 
-        <div class="inventory">
-            <h2>法宝栏</h2>
-            <div class="equipment-slots">
-                <div class="slot" data-slot="weapon">法器: <span id="weapon">无</span></div>
-                <div class="slot" data-slot="armor">法衣: <span id="armor">无</span></div>
-                <div class="slot" data-slot="accessory">灵饰: <span id="accessory">无</span></div>
+        <div class="game-panels">
+            <div class="panel status-panel">
+                <h2>人物状态</h2>
+                <div class="status-content">
+                    <div class="status-item">
+                        <span>攻击力: <span id="attack">10</span></span>
+                    </div>
+                    <div class="status-item">
+                        <span>防御力: <span id="defense">5</span></span>
+                    </div>
+                    <div class="status-item">
+                        <span>已学法术: <span id="learned-spells">无</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel inventory-panel">
+                <h2>背包</h2>
+                <div class="inventory-content">
+                    <div class="inventory-grid" id="inventory-grid">
+                        <!-- 背包格子将通过JavaScript动态添加 -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel equipment-panel">
+                <h2>装备栏</h2>
+                <div class="equipment-slots">
+                    <div class="slot" data-slot="weapon">法器: <span id="weapon">无</span></div>
+                    <div class="slot" data-slot="armor">法衣: <span id="armor">无</span></div>
+                    <div class="slot" data-slot="accessory">灵饰: <span id="accessory">无</span></div>
+                </div>
             </div>
         </div>
     </div>
